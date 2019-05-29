@@ -14,6 +14,7 @@ setup(
         "timedelta",
         "timedelta.templatetags",
     ],
+    include_package_data=True,
     package_data={'timedelta': ['VERSION']},
     classifiers=[
         'Framework :: Django :: 1.4',

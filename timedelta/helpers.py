@@ -171,7 +171,7 @@ class RegexLocale(object):
             r'((?P<seconds>-?((\d*\.\d+)|\d+))\W*s(ec(ond)?(s)?)?)?\W*$'
         ),
         'pt-br': (
-            r'^((?P<weeks>-?((\d*\.\d+)|\d+))\W*s((e)?(mana(s)?)?)(,)?\W*)?'
+            r'^((?P<weeks>-?((\d*\.\d+)|\d+))\W*s((em)?(ana(s)?)?)(,)?\W*)?'
             r'((?P<days>-?((\d*\.\d+)|\d+))\W*d(ia(s)?)?(,)?\W*)?'
             r'((?P<hours>-?((\d*\.\d+)|\d+))\W*h(ora)?((s)?)?(,)?\W*)?'
             r'((?P<minutes>-?((\d*\.\d+)|\d+))\W*m(in(uto)?(s)?)?(,)?\W*)?'

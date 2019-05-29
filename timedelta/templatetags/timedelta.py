@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 
 register = template.Library()
 
@@ -11,7 +12,7 @@ def timedelta(value, display="long"):
         return value
     if isinstance(value, basestring):
         try:
-            value = parse(value)
+            value = parse(value, language_code=settings.LANGUAGE_CODE)
         except TypeError:
             return value
     return nice_repr(value, display)

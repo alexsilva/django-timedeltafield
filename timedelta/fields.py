@@ -1,5 +1,6 @@
 import datetime
 from collections import defaultdict
+from django.conf import settings
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -48,7 +49,7 @@ class TimedeltaField(six.with_metaclass(models.SubfieldBase, models.Field)):
                 return None
             else:
                 return datetime.timedelta(0)
-        return parse(value)
+        return parse(value, language_code=settings.LANGUAGE_CODE)
 
     def get_prep_value(self, value):
         if self.null and value == "":

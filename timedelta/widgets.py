@@ -2,6 +2,7 @@ import datetime
 
 from django import forms
 from django.utils import six
+from django.conf import settings
 
 from .helpers import nice_repr, parse
 
@@ -34,11 +35,11 @@ class TimedeltaWidget(forms.TextInput):
 
         if initial:
             if not isinstance(initial, datetime.timedelta):
-                initial = parse(initial)
+                initial = parse(initial, language_code=settings.LANGUAGE_CODE)
 
         if not isinstance(data, datetime.timedelta):
             try:
-                data = parse(data)
+                data = parse(data, language_code=settings.LANGUAGE_CODE)
             except TypeError:
                 # initial didn't throw a TypeError, so this must be different
                 # from initial

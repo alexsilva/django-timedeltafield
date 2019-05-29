@@ -7,7 +7,7 @@ from django.db import models
 from django.utils import six
 
 from .forms import TimedeltaFormField
-from .helpers import parse
+from .helpers import parse, TimedeltaLocale
 
 # TODO: Figure out why django admin thinks fields of this type have changed every time an object is saved.
 
@@ -56,7 +56,7 @@ class TimedeltaField(six.with_metaclass(models.SubfieldBase, models.Field)):
             return None
         if (value is None) or isinstance(value, six.string_types):
             return value
-        return str(value).replace(',', '')
+        return str(TimedeltaLocale(value, language_code=settings.LANGUAGE_CODE)).replace(',', '')
 
     def get_db_prep_value(self, value, connection=None, prepared=None):
         return self.get_prep_value(value)

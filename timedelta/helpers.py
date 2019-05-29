@@ -7,6 +7,7 @@ from decimal import Decimal
 from django.utils import six
 from django.utils.functional import cached_property
 from django.utils.six import string_types
+from django.utils.translation import ugettext_lazy as _
 
 STRFDATETIME = re.compile('([dgGhHis])')
 STRFDATETIME_REPL = lambda x: '%%(%s)s' % x.group()
@@ -159,6 +160,58 @@ def iso8601_repr(timedelta, format=None):
         result = result[:-1]
 
     return "".join(result)
+
+
+class Locale(object):
+    def __init__(self, language_code):
+        self.language_code = language_code
+
+    @cached_property
+    def code(self):
+        if isinstance(self.language_code, string_types):
+            return self.language_code.lower()
+        return self.language_code
+
+
+class TimedeltaLocale(Locale):
+    language = {
+        'pt-br': {
+            'days': _("days"),
+            'seconds': _("seconds"),
+            "microseconds": _("microseconds"),
+            "milliseconds": _("milliseconds"),
+            "minutes": _("minutes"),
+            "hours": _("hours"),
+            "weeks": _("weeks")
+        }
+    }
+
+    def __init__(self, timedelta, language_code):
+        """
+        :type language_code: str
+        :type timedelta: datetime.timedelta
+        """
+        super(TimedeltaLocale, self).__init__(language_code)
+        self.timedelta = timedelta
+
+    def __str__(self):
+        val = []
+        language = self.language[self.code]
+
+        def format_name(name):
+            value = getattr(self.timedelta, name, None)
+            if value:
+                fmt = u"{0.timedelta.%s} {1[%s]}" % (name, name)
+                value = fmt.format(self, language)
+            return value
+
+        val.append(format_name("weeks"))
+        val.append(format_name("days"))
+        val.append(format_name("hours"))
+        val.append(format_name("minutes"))
+        val.append(format_name("seconds"))
+        val.append(format_name("microseconds"))
+        return u', '.join(filter(lambda x: x, val))
 
 
 class RegexLocale(object):
@@ -529,7 +582,7 @@ def round_to_nearest(obj, timedelta):
     """
 
     assert isinstance(obj, (
-    datetime.datetime, datetime.timedelta, datetime.time)), "First argument must be datetime, time or timedelta."
+        datetime.datetime, datetime.timedelta, datetime.time)), "First argument must be datetime, time or timedelta."
     assert isinstance(timedelta, datetime.timedelta), "Second argument must be a timedelta."
 
     time_only = False

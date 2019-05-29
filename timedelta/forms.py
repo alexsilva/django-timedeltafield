@@ -1,9 +1,11 @@
+import datetime
+
 from django import forms
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from .helpers import parse
+from .helpers import parse, TimedeltaLocale
 from .widgets import TimedeltaWidget
 
 
@@ -16,6 +18,11 @@ class TimedeltaFormField(forms.Field):
         defaults = {'widget': TimedeltaWidget}
         defaults.update(kwargs)
         super(TimedeltaFormField, self).__init__(*args, **defaults)
+
+    def prepare_value(self, value):
+        if value and isinstance(value, datetime.timedelta):
+            value = str(TimedeltaLocale(value, language_code=settings.LANGUAGE_CODE))
+        return value
 
     def clean(self, value):
         """

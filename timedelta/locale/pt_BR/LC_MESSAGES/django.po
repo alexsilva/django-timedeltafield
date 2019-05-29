@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-29 17:38-0300\n"
+"POT-Creation-Date: 2019-05-29 19:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,4 +20,33 @@ msgstr ""
 
 #: .\timedelta\forms.py:12
 msgid "Enter a valid time span: e.g. \"3 days, 4 hours, 2 minutes\""
-msgstr "Entre com um período de tempo válido e.g. \"3 dias, 4 horas, 2 minutos\""
+msgstr ""
+"Entre com um período de tempo válido e.g. \"3 dias, 4 horas, 2 minutos\""
+
+#: .\timedelta\helpers.py:179
+msgid "days"
+msgstr "dias"
+
+#: .\timedelta\helpers.py:180
+msgid "seconds"
+msgstr "segundos"
+
+#: .\timedelta\helpers.py:181
+msgid "microseconds"
+msgstr "microsegundos"
+
+#: .\timedelta\helpers.py:182
+msgid "milliseconds"
+msgstr "milisegundos"
+
+#: .\timedelta\helpers.py:183
+msgid "minutes"
+msgstr "minutos"
+
+#: .\timedelta\helpers.py:184
+msgid "hours"
+msgstr "horas"
+
+#: .\timedelta\helpers.py:185
+msgid "weeks"
+msgstr "semanas"

@@ -5,6 +5,8 @@ import re
 from decimal import Decimal
 
 from django.utils import six
+from django.utils.functional import cached_property
+from django.utils.six import string_types
 
 STRFDATETIME = re.compile('([dgGhHis])')
 STRFDATETIME_REPL = lambda x: '%%(%s)s' % x.group()
@@ -159,7 +161,38 @@ def iso8601_repr(timedelta, format=None):
     return "".join(result)
 
 
-def parse(string):
+class RegexLocale(object):
+    language = {
+        'en': (
+            r'^((?P<weeks>-?((\d*\.\d+)|\d+))\W*w((ee)?(k(s)?)?)(,)?\W*)?'
+            r'((?P<days>-?((\d*\.\d+)|\d+))\W*d(ay(s)?)?(,)?\W*)?'
+            r'((?P<hours>-?((\d*\.\d+)|\d+))\W*h(ou)?(r(s)?)?(,)?\W*)?'
+            r'((?P<minutes>-?((\d*\.\d+)|\d+))\W*m(in(ute)?(s)?)?(,)?\W*)?'
+            r'((?P<seconds>-?((\d*\.\d+)|\d+))\W*s(ec(ond)?(s)?)?)?\W*$'
+        ),
+        'pt-br': (
+            r'^((?P<weeks>-?((\d*\.\d+)|\d+))\W*s((e)?(mana(s)?)?)(,)?\W*)?'
+            r'((?P<days>-?((\d*\.\d+)|\d+))\W*d(ia(s)?)?(,)?\W*)?'
+            r'((?P<hours>-?((\d*\.\d+)|\d+))\W*h(ora)?((s)?)?(,)?\W*)?'
+            r'((?P<minutes>-?((\d*\.\d+)|\d+))\W*m(in(uto)?(s)?)?(,)?\W*)?'
+            r'((?P<seconds>-?((\d*\.\d+)|\d+))\W*s(eg(undo)?(s)?)?)?\W*$'
+        )
+    }
+
+    def __init__(self, language_code):
+        self.language_code = language_code
+
+    @cached_property
+    def code(self):
+        if isinstance(self.language_code, string_types):
+            return self.language_code.lower()
+        return self.language_code
+
+    def __str__(self):
+        return self.language.get(self.code)
+
+
+def parse(string, language_code=None):
     """
     Parse a string into a timedelta object.
 
@@ -276,6 +309,10 @@ def parse(string):
 
     if string == "":
         raise TypeError("'%s' is not a valid time interval" % string)
+
+    if language_code is None:
+        language_code = 'en'
+
     # This is the format we get from sometimes Postgres, sqlite,
     # and from serialization
     d = re.match(r'^((?P<days>[-+]?\d+) days?,? )?(?P<sign>[-+]?)(?P<hours>\d+):'
@@ -289,13 +326,8 @@ def parse(string):
         d.pop('sign', None)
     else:
         # This is the more flexible format
-        d = re.match(
-            r'^((?P<weeks>-?((\d*\.\d+)|\d+))\W*w((ee)?(k(s)?)?)(,)?\W*)?'
-            r'((?P<days>-?((\d*\.\d+)|\d+))\W*d(ay(s)?)?(,)?\W*)?'
-            r'((?P<hours>-?((\d*\.\d+)|\d+))\W*h(ou)?(r(s)?)?(,)?\W*)?'
-            r'((?P<minutes>-?((\d*\.\d+)|\d+))\W*m(in(ute)?(s)?)?(,)?\W*)?'
-            r'((?P<seconds>-?((\d*\.\d+)|\d+))\W*s(ec(ond)?(s)?)?)?\W*$',
-            six.text_type(string))
+        d = re.match(str(RegexLocale(language_code)),
+                     six.text_type(string))
         if not d:
             raise TypeError("'%s' is not a valid time interval" % string)
         d = d.groupdict(0)

@@ -1,6 +1,7 @@
 from django import forms
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from .helpers import parse
 from .widgets import TimedeltaWidget
@@ -84,7 +85,7 @@ class TimedeltaFormField(forms.Field):
         if (value == '' or value is None) and not self.required:
             return ''
         try:
-            return parse(value)
+            return parse(value, language_code=settings.LANGUAGE_CODE)
         except TypeError:
             raise forms.ValidationError(self.error_messages['invalid'])
 

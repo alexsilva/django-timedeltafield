@@ -1,13 +1,12 @@
 import datetime
 from collections import defaultdict
-from django.conf import settings
 
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import six
 
 from .forms import TimedeltaFormField
-from .helpers import parse, TimedeltaLocale
+from .helpers import parse
 
 # TODO: Figure out why django admin thinks fields of this type have changed every time an object is saved.
 
@@ -49,14 +48,14 @@ class TimedeltaField(six.with_metaclass(models.SubfieldBase, models.Field)):
                 return None
             else:
                 return datetime.timedelta(0)
-        return parse(value, language_code=settings.LANGUAGE_CODE)
+        return parse(value)
 
     def get_prep_value(self, value):
         if self.null and value == "":
             return None
         if (value is None) or isinstance(value, six.string_types):
             return value
-        return str(TimedeltaLocale(value, language_code=settings.LANGUAGE_CODE)).replace(',', '')
+        return str(value).replace(',', '')
 
     def get_db_prep_value(self, value, connection=None, prepared=None):
         return self.get_prep_value(value)

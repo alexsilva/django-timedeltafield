@@ -174,16 +174,14 @@ class Locale(object):
 
 
 class TimedeltaLocale(Locale):
-    language = {
-        'pt-br': {
-            'days': _("days"),
-            'seconds': _("seconds"),
-            "microseconds": _("microseconds"),
-            "milliseconds": _("milliseconds"),
-            "minutes": _("minutes"),
-            "hours": _("hours"),
-            "weeks": _("weeks")
-        }
+    translation = {
+        'days': _("days"),
+        'seconds': _("seconds"),
+        "microseconds": _("microseconds"),
+        "milliseconds": _("milliseconds"),
+        "minutes": _("minutes"),
+        "hours": _("hours"),
+        "weeks": _("weeks")
     }
 
     def __init__(self, timedelta, language_code):
@@ -196,13 +194,18 @@ class TimedeltaLocale(Locale):
 
     def __str__(self):
         val = []
-        language = self.language[self.code]
+        translation = self.translation
+
+        if self.code == 'en':
+            translation = dict([
+                (key, key) for key in translation.iterkeys()
+            ])
 
         def format_name(name):
             value = getattr(self.timedelta, name, None)
             if value:
                 fmt = u"{0.timedelta.%s} {1[%s]}" % (name, name)
-                value = fmt.format(self, language)
+                value = fmt.format(self, translation)
             return value
 
         val.append(format_name("weeks"))

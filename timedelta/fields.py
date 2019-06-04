@@ -16,7 +16,7 @@ COLUMN_TYPES["django.db.backends.postgresql_psycopg2"] = "interval"
 COLUMN_TYPES["django.contrib.gis.db.backends.postgis"] = "interval"
 
 
-class TimedeltaField(six.with_metaclass(models.SubfieldBase, models.Field)):
+class TimedeltaField(models.Field):
     """
     Store a datetime.timedelta as an INTERVAL in postgres, or a
     CHAR(20) in other database backends.
@@ -37,6 +37,14 @@ class TimedeltaField(six.with_metaclass(models.SubfieldBase, models.Field)):
             self._max_value = datetime.timedelta(seconds=self._max_value)
 
         super(TimedeltaField, self).__init__(*args, **kwargs)
+
+    def from_db_value(self, value, expression, connection, context):
+        if not value:
+            if self.null:
+                return None
+            else:
+                return datetime.timedelta(0)
+        return parse(value)
 
     def to_python(self, value):
         if (value is None) or isinstance(value, datetime.timedelta):

@@ -21,8 +21,6 @@ class TimedeltaField(models.Field):
     Store a datetime.timedelta as an INTERVAL in postgres, or a
     CHAR(20) in other database backends.
     """
-    _south_introspects = True
-
     description = "A datetime.timedelta object"
 
     def __init__(self, *args, **kwargs):

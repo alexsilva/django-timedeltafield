@@ -402,7 +402,7 @@ def divide(obj1, obj2, as_float=False):
     >>> divide(td(2), td(1))
     2
     >>> divide(td(32), 16)
-    datetime.timedelta(2)
+    datetime.timedelta(days=2)
     >>> divide(datetime.timedelta(1), datetime.timedelta(hours=6))
     4
     >>> divide(datetime.timedelta(2), datetime.timedelta(3))
@@ -410,7 +410,7 @@ def divide(obj1, obj2, as_float=False):
     >>> divide(datetime.timedelta(8), datetime.timedelta(3), as_float=True)
     2.6666666666666665
     >>> divide(datetime.timedelta(8), 2.0)
-    datetime.timedelta(4)
+    datetime.timedelta(days=4)
     >>> divide(datetime.timedelta(8), 2, as_float=True)
     Traceback (most recent call last):
         ...

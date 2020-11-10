@@ -15,6 +15,7 @@ class TimedeltaFormField(forms.Field):
     }
 
     def __init__(self, *args, **kwargs):
+        self.language = kwargs.pop('language', settings.LANGUAGE_CODE)
         defaults = {'widget': TimedeltaWidget}
         defaults.update(kwargs)
         super(TimedeltaFormField, self).__init__(*args, **defaults)
@@ -29,7 +30,7 @@ class TimedeltaFormField(forms.Field):
         This doesn't really need to be here: it should be tested in
         parse()...
         
-        >>> t = TimedeltaFormField()
+        >>> t = TimedeltaFormField(language='en')
         >>> t.clean('1 day')
         datetime.timedelta(1)
         >>> t.clean('1 day, 0:00:00')
@@ -92,7 +93,7 @@ class TimedeltaFormField(forms.Field):
         if (value == '' or value is None) and not self.required:
             return ''
         try:
-            return parse(value, language_code=settings.LANGUAGE_CODE)
+            return parse(value, language_code=self.language)
         except TypeError:
             raise forms.ValidationError(self.error_messages['invalid'])
 

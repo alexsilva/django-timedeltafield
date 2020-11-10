@@ -61,7 +61,7 @@ class TimedeltaField(models.Field):
             return None
         if value is None or isinstance(value, six.string_types):
             return value
-        return str(TimedeltaLocale(value, language_code='en')).replace(',', '')
+        return str(TimedeltaLocale(value, language='en')).replace(',', '')
 
     def get_db_prep_value(self, value, connection=None, prepared=None):
         return self.get_prep_value(value)

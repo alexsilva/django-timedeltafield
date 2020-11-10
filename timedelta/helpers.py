@@ -163,14 +163,14 @@ def iso8601_repr(timedelta, format=None):
 
 
 class Locale(object):
-    def __init__(self, language_code):
-        self.language_code = language_code
+    def __init__(self, language):
+        self.language = language
 
     @cached_property
     def code(self):
-        if isinstance(self.language_code, string_types):
-            return self.language_code.lower()
-        return self.language_code
+        if isinstance(self.language, string_types):
+            return self.language.lower()
+        return self.language
 
 
 class TimedeltaLocale(Locale):
@@ -184,12 +184,12 @@ class TimedeltaLocale(Locale):
         "weeks": _("weeks")
     }
 
-    def __init__(self, timedelta, language_code):
+    def __init__(self, timedelta, language):
         """
-        :type language_code: str
+        :type language: str
         :type timedelta: datetime.timedelta
         """
-        super(TimedeltaLocale, self).__init__(language_code)
+        super(TimedeltaLocale, self).__init__(language)
         self.timedelta = timedelta
 
     def __str__(self):
@@ -235,14 +235,14 @@ class RegexLocale(object):
         )
     }
 
-    def __init__(self, language_code):
-        self.language_code = language_code
+    def __init__(self, language):
+        self.language = language
 
     @cached_property
     def code(self):
-        if isinstance(self.language_code, string_types):
-            return self.language_code.lower()
-        return self.language_code
+        if isinstance(self.language, string_types):
+            return self.language.lower()
+        return self.language
 
     def __str__(self):
         return self.language.get(self.code)

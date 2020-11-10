@@ -3,14 +3,14 @@ from django.conf import settings
 
 register = template.Library()
 
-from ..helpers import parse, nice_repr, total_seconds as _total_seconds
+from timedelta.helpers import parse, nice_repr, total_seconds as _total_seconds
 
 
 @register.filter(name='timedelta')
 def timedelta(value, display="long"):
     if value is None:
         return value
-    if isinstance(value, basestring):
+    if isinstance(value, str):
         try:
             value = parse(value, language_code=settings.LANGUAGE_CODE)
         except TypeError:

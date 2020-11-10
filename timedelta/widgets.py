@@ -35,11 +35,11 @@ class TimedeltaWidget(forms.TextInput):
 
         if initial:
             if not isinstance(initial, datetime.timedelta):
-                initial = parse(initial, language_code=settings.LANGUAGE_CODE)
+                initial = parse(initial, language=settings.LANGUAGE_CODE)
 
         if not isinstance(data, datetime.timedelta):
             try:
-                data = parse(data, language_code=settings.LANGUAGE_CODE)
+                data = parse(data, language=settings.LANGUAGE_CODE)
             except TypeError:
                 # initial didn't throw a TypeError, so this must be different
                 # from initial

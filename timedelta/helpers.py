@@ -248,7 +248,7 @@ class RegexLocale(object):
         return self.language.get(self.code)
 
 
-def parse(string, language_code=None):
+def parse(string, language=None):
     """
     Parse a string into a timedelta object.
 
@@ -366,8 +366,8 @@ def parse(string, language_code=None):
     if string == "":
         raise TypeError("'%s' is not a valid time interval" % string)
 
-    if language_code is None:
-        language_code = 'en'
+    if language is None:
+        language = 'en'
 
     # This is the format we get from sometimes Postgres, sqlite,
     # and from serialization
@@ -382,7 +382,7 @@ def parse(string, language_code=None):
         d.pop('sign', None)
     else:
         # This is the more flexible format
-        d = re.match(str(RegexLocale(language_code)),
+        d = re.match(str(RegexLocale(language)),
                      six.text_type(string))
         if not d:
             raise TypeError("'%s' is not a valid time interval" % string)

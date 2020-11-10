@@ -12,7 +12,7 @@ def timedelta(value, display="long"):
         return value
     if isinstance(value, str):
         try:
-            value = parse(value, language_code=settings.LANGUAGE_CODE)
+            value = parse(value, language=settings.LANGUAGE_CODE)
         except TypeError:
             return value
     return nice_repr(value, display)

@@ -1,9 +1,11 @@
 import datetime
 import doctest
-from unittest import TestCase, skipIf
+from unittest import skipIf
 
 import django
 from django.core.exceptions import ValidationError
+from django.test import TestCase
+from django.utils import translation
 
 import timedelta.forms
 import timedelta.helpers
@@ -13,6 +15,10 @@ from timedelta.timedeltatests.models import IntTestModel, MinMaxTestModel, Float
 
 
 class TimedeltaModelFieldTest(TestCase):
+
+    def setUp(self) -> None:
+        translation.activate("en")
+
     def test_validate(self):
         test = MinMaxTestModel(
             min=datetime.timedelta(1),

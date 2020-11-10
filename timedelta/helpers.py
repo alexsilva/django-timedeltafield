@@ -198,13 +198,13 @@ class TimedeltaLocale(Locale):
 
         if self.code == 'en':
             translation = dict([
-                (key, key) for key in translation.iterkeys()
+                (key, key) for key in translation.keys()
             ])
 
         def format_name(name):
             value = getattr(self.timedelta, name, None)
             if value:
-                fmt = u"{0.timedelta.%s} {1[%s]}" % (name, name)
+                fmt = "{0.timedelta.%s} {1[%s]}" % (name, name)
                 value = fmt.format(self, translation)
             return value
 
@@ -214,7 +214,7 @@ class TimedeltaLocale(Locale):
         val.append(format_name("minutes"))
         val.append(format_name("seconds"))
         val.append(format_name("microseconds"))
-        return u', '.join(filter(lambda x: x, val))
+        return ', '.join([s for s in val if s])
 
 
 class RegexLocale(object):
@@ -584,8 +584,8 @@ def round_to_nearest(obj, timedelta):
     TODO: test with tzinfo (non-naive) datetimes/times.
     """
 
-    assert isinstance(obj, (
-        datetime.datetime, datetime.timedelta, datetime.time)), "First argument must be datetime, time or timedelta."
+    assert isinstance(obj, (datetime.datetime, datetime.timedelta, datetime.time)), \
+        "First argument must be datetime, time or timedelta."
     assert isinstance(timedelta, datetime.timedelta), "Second argument must be a timedelta."
 
     time_only = False

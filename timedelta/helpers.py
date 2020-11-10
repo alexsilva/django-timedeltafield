@@ -496,13 +496,13 @@ def multiply(obj, val):
     """
     Allows for the multiplication of timedeltas by float values.
     >>> multiply(datetime.timedelta(seconds=20), 1.5)
-    datetime.timedelta(0, 30)
+    datetime.timedelta(seconds=30)
     >>> multiply(datetime.timedelta(1), 2.5)
-    datetime.timedelta(2, 43200)
+    datetime.timedelta(days=2, seconds=43200)
     >>> multiply(datetime.timedelta(1), 3)
-    datetime.timedelta(3)
+    datetime.timedelta(days=3)
     >>> multiply(datetime.timedelta(1), Decimal("5.5"))
-    datetime.timedelta(5, 43200)
+    datetime.timedelta(days=5, seconds=43200)
     >>> multiply(datetime.date.today(), 2.5)
     Traceback (most recent call last):
         ...

@@ -47,7 +47,7 @@ class TimedeltaField(models.Field):
         return parse(value)
 
     def to_python(self, value):
-        if (value is None) or isinstance(value, datetime.timedelta):
+        if value is None or isinstance(value, datetime.timedelta):
             return value
         if isinstance(value, (int, float)):
             return datetime.timedelta(seconds=value)
@@ -61,7 +61,7 @@ class TimedeltaField(models.Field):
     def get_prep_value(self, value):
         if self.null and value == "":
             return None
-        if (value is None) or isinstance(value, six.string_types):
+        if value is None or isinstance(value, six.string_types):
             return value
         return str(TimedeltaLocale(value, language_code='en')).replace(',', '')
 

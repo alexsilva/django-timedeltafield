@@ -4,26 +4,12 @@ from unittest import TestCase, skipIf
 
 import django
 from django.core.exceptions import ValidationError
-from django.db import models
 
 import timedelta.forms
 import timedelta.helpers
 import timedelta.widgets
-from .fields import TimedeltaField
-
-
-class MinMaxTestModel(models.Model):
-    min = TimedeltaField(min_value=datetime.timedelta(1))
-    max = TimedeltaField(max_value=datetime.timedelta(1))
-    minmax = TimedeltaField(min_value=datetime.timedelta(1), max_value=datetime.timedelta(7))
-
-
-class IntTestModel(models.Model):
-    field = TimedeltaField(min_value=1, max_value=86400)
-
-
-class FloatTestModel(models.Model):
-    field = TimedeltaField(min_value=1.0, max_value=86400.0)
+from timedelta.fields import TimedeltaField
+from timedelta.timedeltatests.models import IntTestModel, MinMaxTestModel, FloatTestModel
 
 
 class TimedeltaModelFieldTest(TestCase):

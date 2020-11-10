@@ -442,11 +442,11 @@ def modulo(obj1, obj2):
 
     >>> from datetime import timedelta as td
     >>> modulo(td(5), td(2))
-    datetime.timedelta(1)
+    datetime.timedelta(days=1)
     >>> modulo(td(6), td(3))
     datetime.timedelta(0)
     >>> modulo(td(15), 4 * 3600 * 24)
-    datetime.timedelta(3)
+    datetime.timedelta(days=3)
 
     >>> modulo(5, td(1))
     Traceback (most recent call last):

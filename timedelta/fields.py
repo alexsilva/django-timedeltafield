@@ -83,7 +83,7 @@ class TimedeltaField(models.Field):
                 raise ValidationError('More than maximum allowed value')
 
     def value_to_string(self, obj):
-        value = self._get_val_from_obj(obj)
+        value = self.value_from_object(obj)
         return six.text_type(value)
 
     def get_default(self):
@@ -95,7 +95,7 @@ class TimedeltaField(models.Field):
             if callable(self.default):
                 return self.default()
             return self.get_prep_value(self.default)
-        if not self.empty_strings_allowed or (self.null):
+        if not self.empty_strings_allowed or self.null:
             return None
         return ""
 

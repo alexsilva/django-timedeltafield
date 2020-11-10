@@ -4,14 +4,14 @@ from django import forms
 from django.utils import six
 from django.conf import settings
 
-from .helpers import nice_repr, parse
+from timedelta.helpers import nice_repr, parse
 
 
 class TimedeltaWidget(forms.TextInput):
     def __init__(self, *args, **kwargs):
         super(TimedeltaWidget, self).__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, **kwargs):
         if value is None:
             value = ""
         elif isinstance(value, six.string_types):
@@ -20,7 +20,7 @@ class TimedeltaWidget(forms.TextInput):
             if isinstance(value, int):
                 value = datetime.timedelta(seconds=value)
             value = nice_repr(value)
-        return super(TimedeltaWidget, self).render(name, value, attrs)
+        return super(TimedeltaWidget, self).render(name, value, **kwargs)
 
     def _has_changed(self, initial, data):
         """

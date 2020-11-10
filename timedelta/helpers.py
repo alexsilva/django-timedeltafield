@@ -218,7 +218,7 @@ class TimedeltaLocale(Locale):
 
 
 class RegexLocale(object):
-    language = {
+    i18n = {
         'en': (
             r'^((?P<weeks>-?((\d*\.\d+)|\d+))\W*w((ee)?(k(s)?)?)(,)?\W*)?'
             r'((?P<days>-?((\d*\.\d+)|\d+))\W*d(ay(s)?)?(,)?\W*)?'
@@ -245,7 +245,7 @@ class RegexLocale(object):
         return self.language
 
     def __str__(self):
-        return self.language.get(self.code)
+        return self.i18n.get(self.code)
 
 
 def parse(string, language=None):

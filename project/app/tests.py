@@ -110,6 +110,8 @@ class TimedeltaModelFieldTest(TestCase):
 
     def test_load_from_db(self):
         obj = MinMaxTestModel.objects.create(min='2 days', max='2 minutes', minmax='3 days')
+        obj.full_clean()
+
         self.assertEquals(datetime.timedelta(2), obj.min)
         self.assertEquals(datetime.timedelta(0, 120), obj.max)
         self.assertEquals(datetime.timedelta(3), obj.minmax)

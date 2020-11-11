@@ -36,7 +36,7 @@ class TimedeltaField(models.Field):
 
         super(TimedeltaField, self).__init__(*args, **kwargs)
 
-    def from_db_value(self, value, expression, connection, context):
+    def from_db_value(self, value, expression, connection):
         if not value:
             if self.null:
                 return None

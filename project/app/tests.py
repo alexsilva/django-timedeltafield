@@ -57,8 +57,8 @@ class TimedeltaModelFieldTest(TestCase):
 
         # valid
         test.field = 3600
-        self.assertEquals(test.field, datetime.timedelta(seconds=3600))
         test.full_clean()
+        self.assertEquals(test.field, datetime.timedelta(seconds=3600))
 
         # invalid
         test.field = 0
@@ -79,8 +79,8 @@ class TimedeltaModelFieldTest(TestCase):
 
         # valid
         test.field = 3600.0
-        self.assertEquals(test.field, datetime.timedelta(seconds=3600))
         test.full_clean()
+        self.assertEquals(test.field, datetime.timedelta(seconds=3600))
 
         # invalid
         test.field = 0.0
